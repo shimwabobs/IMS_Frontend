@@ -36,7 +36,7 @@ const LoginComponent = () => {
     success: successLogin,
     loading: loadingLogin,
     fetchData: fetchLogin,
-  } = useFetch("http://localhost:8000/api/v1/user/login", "POST");
+  } = useFetch("/api/v1/user/login", "POST");
 
   const {
     result: resultRegister,
@@ -44,7 +44,7 @@ const LoginComponent = () => {
     success: successRegister,
     loading: loadingRegister,
     fetchData: fetchRegister,
-  } = useFetch("http://localhost:8000/api/v1/user/register", "POST");
+  } = useFetch("/api/v1/user/register", "POST");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

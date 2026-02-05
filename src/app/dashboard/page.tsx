@@ -610,7 +610,7 @@ const handleLogout = async () => {
   setLoggingOut(true);
   
   try {
-    const response = await fetch("http://localhost:8000/api/v1/user/logout", {
+    const response = await fetch("/api/v1/user/logout", {
       method: "POST",
       credentials: "include", // Include cookies for session-based auth
       headers: {
@@ -709,11 +709,11 @@ const handleLogout = async () => {
     error: dashboardError,
     loading: dashboardLoading,
     fetchData: fetchDashboard,
-  } = useFetch<DashboardResponse>("http://localhost:8000/api/v1/dashboard/dashboard/", "GET");
+  } = useFetch<DashboardResponse>("/api/v1/dashboard/dashboard/", "GET");
 
-  const { fetchData: addShop } = useFetch("http://localhost:8000/api/v1/shop/new-shop", "POST");
-  const { fetchData: addProduct } = useFetch("http://localhost:8000/api/v1/product/addProduct", "POST");
-  const { fetchData: addSale, loading: addingSale } = useFetch("http://localhost:8000/api/v1/sales/newSale", "POST");
+  const { fetchData: addShop } = useFetch("/api/v1/shop/new-shop", "POST");
+  const { fetchData: addProduct } = useFetch("/api/v1/product/addProduct", "POST");
+  const { fetchData: addSale, loading: addingSale } = useFetch("/api/v1/sales/newSale", "POST");
 
   // Memoized values
   const shops: Shop[] = dashboardResult?.dashboard?.shops ?? [];
@@ -783,7 +783,7 @@ const lineChartData = useMemo(() => {
   const fetchSales = async (shopId?: number) => {
     setLoadingSales(true);
     try {
-      let url = "http://localhost:8000/api/v1/sales/allSales";
+      let url = "/api/v1/sales/allSales";
       const params = new URLSearchParams();
       
       const targetShopId = shopId || selectedShopForSales || (shops.length > 0 ? shops[0].shop_id : null);
@@ -903,7 +903,7 @@ const lineChartData = useMemo(() => {
     if (!confirm("Are you sure you want to delete this sale record?")) return;
     
     try {
-      await fetch(`http://localhost:8000/api/v1/sales/${saleId}`, {
+      await fetch(`/api/v1/sales/${saleId}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -931,7 +931,7 @@ const lineChartData = useMemo(() => {
   const fetchStockEntries = async (shopId?: number) => {
     setLoadingStockEntries(true);
     try {
-      let url = "http://localhost:8000/api/v1/stock/allEntries";
+      let url = "/api/v1/stock/allEntries";
       const params = new URLSearchParams();
       
       const targetShopId = shopId || selectedShopForStock || (shops.length > 0 ? shops[0].shop_id : null);
@@ -1003,7 +1003,7 @@ const lineChartData = useMemo(() => {
     }
     
     try {
-      const response = await fetch("http://localhost:8000/api/v1/stock/newStock", {
+      const response = await fetch("/api/v1/stock/newStock", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1052,7 +1052,7 @@ const lineChartData = useMemo(() => {
     if (!confirm("Are you sure you want to delete this stock entry? This will adjust inventory quantities.")) return;
     
     try {
-      const response = await fetch(`http://localhost:8000/api/v1/stock/${entryId}`, {
+      const response = await fetch(`/api/v1/stock/${entryId}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -1089,12 +1089,12 @@ const lineChartData = useMemo(() => {
     setLoadingReport(true);
     try {
       // Fetch sales data
-      const salesUrl = `http://localhost:8000/api/v1/sales/allSales?shopId=${selectedShopForReports}&startDate=${reportStartDate}&endDate=${reportEndDate}`;
+      const salesUrl = `/api/v1/sales/allSales?shopId=${selectedShopForReports}&startDate=${reportStartDate}&endDate=${reportEndDate}`;
       const salesResponse = await fetch(salesUrl, { credentials: "include" });
       const salesData: SalesResponse = await salesResponse.json();
 
       // Fetch stock entries data
-      const stockUrl = `http://localhost:8000/api/v1/stock/allEntries?shopId=${selectedShopForReports}&startDate=${reportStartDate}&endDate=${reportEndDate}`;
+      const stockUrl = `/api/v1/stock/allEntries?shopId=${selectedShopForReports}&startDate=${reportStartDate}&endDate=${reportEndDate}`;
       const stockResponse = await fetch(stockUrl, { credentials: "include" });
       const stockData: StockEntryResponse = await stockResponse.json();
 
@@ -1374,7 +1374,7 @@ const lineChartData = useMemo(() => {
 
   const handleDeleteShop = async () => {
     if (!deletingShopId) return;
-    await fetch(`http://localhost:8000/api/v1/shop/${deletingShopId}`, {
+    await fetch(`/api/v1/shop/${deletingShopId}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -1386,7 +1386,7 @@ const lineChartData = useMemo(() => {
 
   const handleDeleteProduct = async (productId: number | string) => {
     if (!confirm("Delete this product?")) return;
-    await fetch(`http://localhost:8000/api/v1/product/${productId}`, {
+    await fetch(`/api/v1/product/${productId}`, {
       method: "DELETE",
       credentials: "include",
     });

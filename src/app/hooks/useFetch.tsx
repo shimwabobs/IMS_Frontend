@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { configDotenv } from "dotenv";
+configDotenv();
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 
@@ -18,7 +20,7 @@ const useFetch = <T = unknown>(url: string, method: Method) => {
             let response;
             switch (method.toUpperCase()) {
                 case "POST":
-                    response = await axios.post(url, data, { withCredentials: true });
+                    response = await axios.post(process.env.NEXT_PUBLIC_API_URL+url, data, { withCredentials: true });
                     break;
                 case "PUT":
                     response = await axios.put(url, data, { withCredentials: true });
