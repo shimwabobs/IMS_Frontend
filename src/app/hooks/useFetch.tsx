@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { configDotenv } from "dotenv";
 configDotenv();
+const apiBase = process.env.NEXT_PUBLIC_API_URL;
 
+if (!apiBase) {
+  throw new Error("NEXT_PUBLIC_API_URL is not defined");
+}
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 
 const useFetch = <T = unknown>(url: string, method: Method) => {
@@ -20,16 +24,16 @@ const useFetch = <T = unknown>(url: string, method: Method) => {
             let response;
             switch (method.toUpperCase()) {
                 case "POST":
-                    response = await axios.post(process.env.NEXT_PUBLIC_API_URL+url, data, { withCredentials: true });
+                    response = await axios.post(`${apiBase}${url}`, data, { withCredentials: true });
                     break;
                 case "PUT":
-                    response = await axios.put(url, data, { withCredentials: true });
+                    response = await axios.put(`${apiBase}${url}`, data, { withCredentials: true });
                     break;
                 case "DELETE":
-                    response = await axios.delete(url, { withCredentials: true });
+                    response = await axios.delete(`${apiBase}${url}`, { withCredentials: true });
                     break;
                 case "GET":
-                    response = await axios.get(url, { withCredentials: true });
+                    response = await axios.get(`${apiBase}${url}`, { withCredentials: true });
                     break;
                 default:
                     throw new Error("Unsupported method");
